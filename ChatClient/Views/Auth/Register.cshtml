@@ -1,0 +1,121 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng ký - ChatApp</title>
+    <link rel="stylesheet" href="~/css/style.css">
+    <link rel="stylesheet" href="~/css/auth.css">
+</head>
+<body>
+    <div class="auth-wrapper">
+        <div class="auth-container">
+            <div class="auth-card">
+                <!-- Header -->
+                <div class="auth-header">
+                    <div class="auth-logo">💬</div>
+                    <h2>Tạo tài khoản mới</h2>
+                    <p>Tham gia cộng đồng chat của chúng tôi</p>
+                </div>
+
+                <!-- Body -->
+                <div class="auth-body">
+                    <!-- Alert -->
+                    <div id="alert" class="auth-alert"></div>
+
+                    <!-- Form -->
+                    <form id="registerForm">
+                        <!-- Nickname -->
+                        <div class="auth-form-group">
+                            <label for="nickname" class="auth-form-label">Tên hiển thị</label>
+                            <input type="text"
+                                   id="nickname"
+                                   name="nickname"
+                                   class="auth-form-input"
+                                   placeholder="VD: Nguyễn Văn A"
+                                   required
+                                   minlength="2"
+                                   maxlength="100">
+                            <span class="error-message" id="nicknameError"></span>
+                        </div>
+
+                        <!-- Username -->
+                        <div class="auth-form-group">
+                            <label for="username" class="auth-form-label">Tên đăng nhập</label>
+                            <input type="text"
+                                   id="username"
+                                   name="username"
+                                   class="auth-form-input"
+                                   placeholder="VD: nguyenvana"
+                                   required
+                                   minlength="3"
+                                   maxlength="50"
+                                   pattern="[a-zA-Z0-9_]+"
+                                   autocomplete="username">
+                            <span class="error-message" id="usernameError"></span>
+                            <small style="color: #6b7280; font-size: 0.75rem;">Chỉ chữ cái, số và dấu gạch dưới</small>
+                        </div>
+
+                        <!-- Password -->
+                        <div class="auth-form-group">
+                            <label for="password" class="auth-form-label">Mật khẩu</label>
+                            <div class="password-input-wrapper">
+                                <input type="password"
+                                       id="password"
+                                       name="password"
+                                       class="auth-form-input"
+                                       placeholder="Nhập mật khẩu"
+                                       required
+                                       minlength="6"
+                                       autocomplete="new-password">
+                                <button type="button" class="password-toggle" id="togglePassword">
+                                    👁️
+                                </button>
+                            </div>
+                            <span class="error-message" id="passwordError"></span>
+                            <small style="color: #6b7280; font-size: 0.75rem;">Tối thiểu 6 ký tự</small>
+                        </div>
+
+                        <!-- Confirm Password -->
+                        <div class="auth-form-group">
+                            <label for="confirmPassword" class="auth-form-label">Xác nhận mật khẩu</label>
+                            <div class="password-input-wrapper">
+                                <input type="password"
+                                       id="confirmPassword"
+                                       name="confirmPassword"
+                                       class="auth-form-input"
+                                       placeholder="Nhập lại mật khẩu"
+                                       required
+                                       autocomplete="new-password">
+                                <button type="button" class="password-toggle" id="toggleConfirmPassword">
+                                    👁️
+                                </button>
+                            </div>
+                            <span class="error-message" id="confirmPasswordError"></span>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button type="submit" class="auth-submit-btn" id="submitBtn">
+                            Đăng ký
+                        </button>
+                    </form>
+
+                    <!-- Footer -->
+                    <div class="auth-footer">
+                        <p>Đã có tài khoản? <a href="/Auth/Login">Đăng nhập</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="~/js/config.js"></script>
+    <script src="~/js/auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            initRegisterPage();
+        });
+    </script>
+</body>
+</html>

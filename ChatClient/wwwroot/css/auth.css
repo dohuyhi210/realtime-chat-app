@@ -1,0 +1,286 @@
+﻿/* ==============================================
+   FILE: wwwroot/css/auth.css
+   Mô tả: CSS cho trang Login và Register
+   ============================================== */
+
+/* ===== AUTH CONTAINER ===== */
+.auth-wrapper {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.auth-container {
+    width: 100%;
+    max-width: 400px;
+}
+
+/* ===== AUTH CARD ===== */
+.auth-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+}
+
+.auth-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 2rem 1.5rem;
+    text-align: center;
+    color: white;
+}
+
+    .auth-header h2 {
+        margin: 0;
+        font-size: 1.75rem;
+        font-weight: 600;
+    }
+
+    .auth-header p {
+        margin: 0.5rem 0 0 0;
+        font-size: 0.9rem;
+        opacity: 0.9;
+    }
+
+.auth-body {
+    padding: 2rem 1.5rem;
+}
+
+/* ===== LOGO ===== */
+.auth-logo {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 1rem auto;
+    background: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+}
+
+/* ===== FORM GROUPS ===== */
+.auth-form-group {
+    margin-bottom: 1.25rem;
+}
+
+.auth-form-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: #344054;
+    font-size: 0.875rem;
+}
+
+.auth-form-input {
+    width: 100%;
+    padding: 0.625rem 0.875rem;
+    font-size: 0.9375rem;
+    border: 1px solid #d0d5dd;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+    .auth-form-input:focus {
+        outline: none;
+        border-color: #667eea;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    .auth-form-input::placeholder {
+        color: #98a2b3;
+    }
+
+/* ===== SUBMIT BUTTON ===== */
+.auth-submit-btn {
+    width: 100%;
+    padding: 0.75rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: white;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    margin-top: 1rem;
+}
+
+    .auth-submit-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    }
+
+    .auth-submit-btn:active {
+        transform: translateY(0);
+    }
+
+    .auth-submit-btn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
+    }
+
+    /* ===== LOADING STATE ===== */
+    .auth-submit-btn.loading {
+        position: relative;
+        color: transparent;
+    }
+
+        .auth-submit-btn.loading::after {
+            content: "";
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            top: 50%;
+            left: 50%;
+            margin-left: -8px;
+            margin-top: -8px;
+            border: 2px solid white;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spinner 0.6s linear infinite;
+        }
+
+@keyframes spinner {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ===== DIVIDER ===== */
+.auth-divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 1.5rem 0;
+}
+
+    .auth-divider::before,
+    .auth-divider::after {
+        content: '';
+        flex: 1;
+        border-bottom: 1px solid #e5e7eb;
+    }
+
+    .auth-divider span {
+        padding: 0 1rem;
+        color: #6b7280;
+        font-size: 0.875rem;
+    }
+
+/* ===== FOOTER LINK ===== */
+.auth-footer {
+    text-align: center;
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #e5e7eb;
+}
+
+    .auth-footer p {
+        margin: 0;
+        color: #6b7280;
+        font-size: 0.875rem;
+    }
+
+    .auth-footer a {
+        color: #667eea;
+        text-decoration: none;
+        font-weight: 600;
+        transition: color 0.2s ease;
+    }
+
+        .auth-footer a:hover {
+            color: #764ba2;
+            text-decoration: underline;
+        }
+
+/* ===== ALERTS ===== */
+.auth-alert {
+    padding: 0.75rem 1rem;
+    margin-bottom: 1rem;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    display: none;
+}
+
+    .auth-alert.show {
+        display: block;
+    }
+
+.auth-alert-success {
+    background-color: #d1fae5;
+    color: #065f46;
+    border: 1px solid #a7f3d0;
+}
+
+.auth-alert-error {
+    background-color: #fee2e2;
+    color: #991b1b;
+    border: 1px solid #fecaca;
+}
+
+/* ===== PASSWORD TOGGLE ===== */
+.password-input-wrapper {
+    position: relative;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #6b7280;
+    cursor: pointer;
+    padding: 4px;
+    transition: color 0.2s ease;
+}
+
+    .password-toggle:hover {
+        color: #374151;
+    }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 480px) {
+    .auth-wrapper {
+        padding: 10px;
+    }
+
+    .auth-header {
+        padding: 1.5rem 1rem;
+    }
+
+        .auth-header h2 {
+            font-size: 1.5rem;
+        }
+
+    .auth-body {
+        padding: 1.5rem 1rem;
+    }
+}
+
+/* ===== VALIDATION ERRORS ===== */
+.error-message {
+    color: #dc2626;
+    font-size: 0.75rem;
+    margin-top: 0.25rem;
+    display: none;
+}
+
+    .error-message.show {
+        display: block;
+    }
+
+.auth-form-input.error {
+    border-color: #dc2626;
+}
+
+    .auth-form-input.error:focus {
+        border-color: #dc2626;
+        box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+    }

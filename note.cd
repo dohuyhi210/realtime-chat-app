@@ -1,0 +1,53 @@
+﻿Các package cần cài cho ChatServer: 
+
+	# Entity Framework Core - Version 8.0.0
+		dotnet add package Microsoft.EntityFrameworkCore --version 8.0.0
+		dotnet add package Microsoft.EntityFrameworkCore.SqlServer --version 8.0.0
+		dotnet add package Microsoft.EntityFrameworkCore.Tools --version 8.0.0
+
+	# BCrypt - Version mới nhất
+		dotnet add package BCrypt.Net-Next --version 4.0.3
+
+	# JWT Authentication
+		dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer --version 8.0.0
+		dotnet add package System.IdentityModel.Tokens.Jwt
+
+
+Sau khi cài xong: 
+
+	# Restore và build
+		dotnet restore
+		dotnet build
+
+Kiểm tra các package đã được cài đặt thành công: 
+
+	# dotnet list package
+
+
+DTOs (Data Transfer Objects) để nhận/trả data từ API.
+Controllers để xử lý các request từ client.
+DataContext để quản lý kết nối và thao tác với database.
+Models để định nghĩa các thực thể trong database.
+Services để chứa logic nghiệp vụ.
+
+
+Luồng hoạt động cơ bản Auth: 
+
+1. Client gửi request đăng ký/đăng nhập với thông tin người dùng.
+2. Controller nhận request validate và gọi Service tương ứng.
+3. Service xử lý logic nghiệp vụ (hash password, kiểm tra thông tin đăng nhập, tạo JWT token).
+4. Service tương tác với DataContext để lưu trữ hoặc truy xuất dữ liệu từ database.
+5. Controller trả về response cho client (thông báo thành công/thất bại, JWT token nếu đăng nhập thành công).
+6. Client sử dụng JWT token để truy cập các API bảo vệ.
+
+Luồng hoạt động cơ bản Websocket: 
+
+	A gửi: {Type: "private_message", Data: {ReceiverId: 2, Content: "Hi"}}
+
+	Middleware: Xác thực token của A → cho phép
+
+	Handler: Nhận message → gọi MessageService lưu DB
+
+	Manager: Tìm WebSocket của B (nếu online) → gửi message
+
+	B nhận: {Type: "private_message", Data: {MessageId: 1, SenderId: 1, Content: "Hi", ...}}

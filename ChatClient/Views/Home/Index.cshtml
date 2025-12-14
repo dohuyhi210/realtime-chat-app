@@ -1,0 +1,188 @@
+﻿@{
+    ViewData["Title"] = "Chat - ChatApp";
+}
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="~/css/style.css">
+    <link rel="stylesheet" href="~/css/home.css">
+</head>
+<body>
+    <!-- Thêm vào sau <body> -->
+    <div id="connectionStatus" style="position: fixed; top: 10px; right: 10px; padding: 5px 10px; background: white; border-radius: 5px; z-index: 1000; display: none;">
+        🔴 Connecting...
+    </div>
+    <!-- Chat Container -->
+    <div class="chat-container">
+
+        <!-- Sidebar (Danh sách users/groups) -->
+        <div class="chat-sidebar">
+            <!-- Header -->
+            <div class="sidebar-header">
+                <div class="user-info">
+                    <div class="user-avatar" id="currentUserAvatar">👤</div>
+                    <div class="user-details">
+                        <h3 id="currentUserNickname">Loading...</h3>
+                    </div>
+                </div>
+                <button class="logout-btn" onclick="logout()">
+                    Đăng xuất
+                </button>
+            </div>
+
+            <!-- Tabs (Bạn bè / Nhóm) -->
+            <div class="sidebar-tabs">
+                <button class="tab-btn active" data-tab="friends" onclick="switchTab('friends')">
+                    Bạn bè
+                </button>
+                <button class="tab-btn" data-tab="groups" onclick="switchTab('groups')">
+                    Nhóm
+                </button>
+            </div>
+
+            <!-- Search Box -->
+            <div class="search-box">
+                <input type="text"
+                       class="search-input"
+                       placeholder="Tìm kiếm..."
+                       id="searchInput"
+                       onkeyup="filterUsers()">
+            </div>
+
+            <!-- User List (Friends Tab) -->
+            <div class="user-list" id="friendsList">
+                <!-- Loading skeleton -->
+                <div class="loading-skeleton">
+                    <p style="text-align: center; padding: 20px; color: #65676b;">
+                        Đang tải danh sách bạn bè...
+                    </p>
+                </div>
+            </div>
+
+            <!-- Group List (Groups Tab) -->
+            <div class="user-list" id="groupsList" style="display: none;">
+                <div class="loading-skeleton">
+                    <p style="text-align: center; padding: 20px; color: #65676b;">
+                        Đang tải danh sách nhóm...
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chat Main Area -->
+        <div class="chat-main">
+
+            <!-- Welcome Screen (hiển thị khi chưa chọn chat) -->
+            <div class="welcome-screen" id="welcomeScreen">
+                <div class="welcome-screen-icon">💬</div>
+                <h2>Chào mừng đến ChatApp</h2>
+                <p>Chọn một người bạn hoặc nhóm để bắt đầu trò chuyện</p>
+            </div>
+
+            <!-- Chat Area (ẩn ban đầu) -->
+            <div class="chat-area" id="chatArea" style="display: none;">
+
+                <!-- Chat Header -->
+                <div class="chat-header">
+                    <div class="chat-header-avatar" id="chatHeaderAvatar">👤</div>
+                    <div class="chat-header-info">
+                        <h3 class="chat-header-name" id="chatHeaderName">User Name</h3>
+                        <p class="chat-header-status" id="chatHeaderStatus">Online</p>
+                    </div>
+                    <div class="chat-header-actions">
+                        <button class="icon-btn" title="Thông tin">ℹ️</button>
+                    </div>
+                </div>
+
+                <!-- Messages Container -->
+                <div class="messages-container" id="messagesContainer">
+                    <!-- Messages will be rendered here by JavaScript -->
+                </div>
+
+                <!-- Typing Indicator -->
+                <div class="typing-indicator" id="typingIndicator" style="display: none;">
+                    <span class="typing-dots">
+                        <span></span><span></span><span></span>
+                    </span>
+                    <span id="typingText">đang soạn tin...</span>
+                </div>
+
+                <!-- Message Input -->
+                <div class="message-input-container">
+                    <div class="message-input-wrapper">
+                        <textarea class="message-input"
+                                  id="messageInput"
+                                  placeholder="Nhập tin nhắn..."
+                                  rows="1"
+                                  oninput="handleTyping()"></textarea>
+                        <button class="send-btn" onclick="sendMessage()" id="sendBtn">
+                            <span>📤</span>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- JavaScript -->
+    <!-- JavaScript -->
+    <!-- JavaScript -->
+    <script src="~/js/config.js"></script>
+    <script src="~/js/utils.js"></script>
+    <script src="~/js/auth.js"></script>  <!-- ĐƯA LÊN TRƯỚC -->
+    <script src="~/js/websocket.js"></script>
+    <script src="~/js/chat.js"></script>
+    <script>
+        // Initialize chat page
+        document.addEventListener('DOMContentLoaded', () => {
+            initChatPage();
+        });
+            // ===== LOGOUT FALLBACK =====
+        // Đảm bảo hàm logout luôn tồn tại
+        (function() {
+            console.log('🔧 Ensuring logout function exists...');
+
+            // Nếu hàm logout chưa tồn tại, tạo fallback
+            if (typeof window.logout === 'undefined') {
+                console.log('🔧 Creating fallback logout function');
+
+                window.logout = function() {
+                    console.log('🚪 Logout function called');
+                    const confirmLogout = confirm('Bạn có chắc chắn muốn đăng xuất?');
+
+                    if (!confirmLogout) {
+                        return;
+                    }
+
+                    // Disconnect WebSocket nếu có
+                    if (typeof window.disconnectWebSocket === 'function') {
+                        console.log('🔌 Disconnecting WebSocket...');
+                        window.disconnectWebSocket();
+                    }
+
+                    // Clear all storage
+                    localStorage.clear();
+                    sessionStorage.clear();
+
+                    // Redirect to login page
+                    console.log('🔄 Redirecting to login...');
+                    window.location.href = '/Auth/Login';
+                };
+
+                console.log('✅ Fallback logout function created');
+            } else {
+                console.log('✅ Logout function already exists');
+            }
+        })();
+    </script>
+</body>
+</html>
